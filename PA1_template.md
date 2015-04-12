@@ -4,24 +4,19 @@
 
 ## Loading and preprocessing the data
 
-Check for existence of activity directory from current directory.  If it does not exist, create.  Check for existence of zip file in activity directory.  If it does not exist, download from URL indicated in code.  Check for existence of activity.csv within the activity directory.  If it does not exist, unzip the activity.zip file.  Read the csv file; use stringsAsFactors specific to the date column to avoid reading in as factor.
+Check for existence of activity.csv in current directory.  If it does not exist, check for existence of zip file in activity directory.  If it does not exist, download from URL indicated in code.  Unzip the activity.zip file to create activity.csv.  Read the csv file; use stringsAsFactors specific to the date column to avoid reading in as factor.
 
 
 ```r
-if (!file.exists("activity")) {
-  dir.create("activity")
+if (!file.exists("activity.csv")) {
+  fileURL <- "http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
+  if (!file.exists("activity.zip")) {
+    download.file(fileURL, "activity.zip")
+  }
+  unzip("activity.zip","activity.csv")
 }
 
-fileURL <- "http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip"
-if (!file.exists("activity\\activity.zip")) {
-  download.file(fileURL, "activity\\activity.zip")
-}
-
-if (!file.exists("activity\\activity.csv")) {
-  unz("activity\\activity.zip","activity\\activity.csv")
-}
-
-activity <- read.csv("activity\\activity.csv",header=TRUE,sep=",",stringsAsFactors=FALSE)
+activity <- read.csv("activity.csv",header=TRUE,sep=",",stringsAsFactors=FALSE)
 ```
 
 

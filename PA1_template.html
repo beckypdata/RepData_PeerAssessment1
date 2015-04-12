@@ -57,21 +57,16 @@ if (window.hljs && document.readyState && document.readyState === "complete") {
 
 <div id="loading-and-preprocessing-the-data" class="section level2">
 <h2>Loading and preprocessing the data</h2>
-<p>Check for existence of activity directory from current directory. If it does not exist, create. Check for existence of zip file in activity directory. If it does not exist, download from URL indicated in code. Check for existence of activity.csv within the activity directory. If it does not exist, unzip the activity.zip file. Read the csv file; use stringsAsFactors specific to the date column to avoid reading in as factor.</p>
-<pre class="r"><code>if (!file.exists(&quot;activity&quot;)) {
-  dir.create(&quot;activity&quot;)
+<p>Check for existence of activity.csv in current directory. If it does not exist, check for existence of zip file in activity directory. If it does not exist, download from URL indicated in code. Unzip the activity.zip file to create activity.csv. Read the csv file; use stringsAsFactors specific to the date column to avoid reading in as factor.</p>
+<pre class="r"><code>if (!file.exists(&quot;activity.csv&quot;)) {
+  fileURL &lt;- &quot;http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip&quot;
+  if (!file.exists(&quot;activity.zip&quot;)) {
+    download.file(fileURL, &quot;activity.zip&quot;)
+  }
+  unzip(&quot;activity.zip&quot;,&quot;activity.csv&quot;)
 }
 
-fileURL &lt;- &quot;http://d396qusza40orc.cloudfront.net/repdata%2Fdata%2Factivity.zip&quot;
-if (!file.exists(&quot;activity\\activity.zip&quot;)) {
-  download.file(fileURL, &quot;activity\\activity.zip&quot;)
-}
-
-if (!file.exists(&quot;activity\\activity.csv&quot;)) {
-  unz(&quot;activity\\activity.zip&quot;,&quot;activity\\activity.csv&quot;)
-}
-
-activity &lt;- read.csv(&quot;activity\\activity.csv&quot;,header=TRUE,sep=&quot;,&quot;,stringsAsFactors=FALSE)</code></pre>
+activity &lt;- read.csv(&quot;activity.csv&quot;,header=TRUE,sep=&quot;,&quot;,stringsAsFactors=FALSE)</code></pre>
 </div>
 <div id="what-is-mean-total-number-of-steps-taken-per-day" class="section level2">
 <h2>What is mean total number of steps taken per day?</h2>
